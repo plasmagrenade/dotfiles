@@ -15,3 +15,19 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>fs", "<cmd>w<cr>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>fS", "<cmd>wa<cr>", { desc = "Save all files" })
+
+-- Clear search highlights
+vim.keymap.set("n", "<leader>h", "<cmd>nohlsearch<cr>", { desc = "Clear search highlights" })
+
+-- Toggle line numbers and fold column
+vim.keymap.set("n", "<leader>n", function()
+  vim.opt.number = not vim.opt.number:get()
+  vim.opt.foldcolumn = vim.opt.foldcolumn:get() == "0" and "1" or "0"
+end, { desc = "Toggle line numbers" })
+
+-- Jump to end of paste/yank
+vim.keymap.set({ "v" }, "y", "y`]", { silent = true })
+vim.keymap.set({ "n", "v" }, "p", "p`]", { silent = true })
+
+-- Sudo write
+vim.keymap.set("c", "w!!", "%!sudo tee > /dev/null %", { desc = "Sudo write" })

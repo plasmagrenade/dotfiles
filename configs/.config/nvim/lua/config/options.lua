@@ -3,6 +3,7 @@
 -- Add any additional options here
 vim.opt.relativenumber = false
 vim.opt.number = true
+vim.opt.cursorcolumn = true
 
 vim.opt.clipboard = ""
 vim.filetype.add({ extension = { pyde = "python" } })
