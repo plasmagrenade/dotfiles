@@ -15,6 +15,9 @@ git config --global alias.unstage "git restore --staged"
 # Push default behavior
 git config --global push.default "current"
 
+# Pull default behavior
+git config --global pull.rebase true
+
 # Credential helper
 git config --global credential.helper "osxkeychain"
 
@@ -24,3 +27,6 @@ git config --global core.pager "less -R"
 # User settings
 git config --global user.name "$GIT_NAME"
 git config --global user.email "$GIT_EMAIL"
+
+# Default branch name
+git config --global init.defaultBranch "main"

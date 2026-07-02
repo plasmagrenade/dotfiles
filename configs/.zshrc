@@ -100,6 +100,7 @@ export NVM_DIR="$HOME/.nvm"
 export EDITOR=nvim
 export GIT_EDITOR=nvim
 
+fpath=(~/.zsh/completions $fpath)
 autoload -U compinit
 compinit
 
