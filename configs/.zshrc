@@ -212,8 +212,8 @@ return $e
 # SSH REAUTH FOR TMUX #
 #######################
 
-if [ "x$SSH_AUTH_SOCK" != "x/tmp/$USER-ssh-auth-sock" ]; then
-    ln -snf $SSH_AUTH_SOCK /tmp/$USER-ssh-auth-sock
+if [ -n "$SSH_AUTH_SOCK" ] && [ "$SSH_AUTH_SOCK" != "/tmp/$USER-ssh-auth-sock" ]; then
+    ln -snf "$SSH_AUTH_SOCK" "/tmp/$USER-ssh-auth-sock"
 fi
  
 SSH_AUTH_SOCK=/tmp/$USER-ssh-auth-sock
