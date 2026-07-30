@@ -1,0 +1,9 @@
+[Unit]
+Description=Auto-import new music downloads into beets
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/case/docker/media-stack/scripts/beet-auto-import.sh
+StandardOutput=journal
+StandardError=journal

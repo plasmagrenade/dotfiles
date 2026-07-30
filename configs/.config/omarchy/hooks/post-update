@@ -1,0 +1,30 @@
+#!/bin/bash
+# ABOUTME: Restores custom configs that omarchy migrations may overwrite.
+# ABOUTME: Covers hypridle and Plymouth boot screen.
+
+CONF="$HOME/.config/hypr/hypridle.conf"
+CUSTOM="$HOME/.config/hypr/hypridle-custom.conf"
+
+if ! grep -q 'IF_DISCHARGING' "$CONF"; then
+    if [ -f "$CUSTOM" ]; then
+        echo "hypridle.conf was overwritten by a migration — restoring from $CUSTOM"
+        cp "$CUSTOM" "$CONF"
+        omarchy-restart-hypridle
+    else
+        BACKUP=$(ls -t "$CONF".bak.* 2>/dev/null | head -1)
+        if [ -n "$BACKUP" ]; then
+            echo "hypridle.conf was overwritten by a migration — restoring from $BACKUP"
+            cp "$BACKUP" "$CONF"
+            omarchy-restart-hypridle
+        else
+            echo "Warning: hypridle.conf was overwritten and no backup found."
+        fi
+    fi
+fi
+
+# Restore custom Plymouth boot screen if omarchy update reset it to defaults.
+# Custom background is pure black (0.000, 0.000, 0.000); omarchy default is Tokyo Night (0.101, 0.105, 0.149).
+if ! grep -q "0.000, 0.000, 0.000" /usr/share/plymouth/themes/omarchy/omarchy.script; then
+    echo "Plymouth was reset to defaults — restoring custom boot screen"
+    omarchy-plymouth-set '#000000' '#ffffff' "$HOME/.config/omarchy/branding/logo.png"
+fi

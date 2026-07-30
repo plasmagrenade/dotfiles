@@ -1,2 +1,5 @@
 scripts/info.sh
 configs/.config/nvim/lazy-lock.json
+configs/.config/**/*.bak.*
+configs/.config/omarchy/current
+configs/.config/omarchy/backgrounds

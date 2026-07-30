@@ -1,0 +1,9 @@
+[Unit]
+Description=Periodically import completed music downloads into beets
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=10min
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,8 @@
+[Unit]
+Description=Convert MP3 ID3 tags to v2.3 for Zune compatibility
+
+[Service]
+Type=oneshot
+ExecStart=python3 /home/case/docker/media-stack/scripts/fix-id3-tags.py /data/media/music
+StandardOutput=journal
+StandardError=journal

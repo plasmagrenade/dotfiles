@@ -1,0 +1,10 @@
+[Unit]
+Description=Watch for new music downloads to auto-import
+
+[Path]
+PathChanged=/data/torrents/music
+MakeDirectory=yes
+Unit=beet-auto-import.service
+
+[Install]
+WantedBy=default.target

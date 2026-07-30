@@ -1,0 +1,9 @@
+[Unit]
+Description=Nightly MP3 ID3 tag conversion for Zune compatibility
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
