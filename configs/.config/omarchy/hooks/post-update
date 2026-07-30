@@ -1,6 +1,17 @@
 #!/bin/bash
 # ABOUTME: Restores custom configs that omarchy migrations may overwrite.
-# ABOUTME: Covers hypridle and Plymouth boot screen.
+# ABOUTME: Covers dotfiles symlinks, hypridle, and Plymouth boot screen.
+
+# Warn when a dotfiles-managed ~/.config entry is no longer a symlink.
+# `omarchy refresh <app>` moves the symlink aside and copies in defaults;
+# merging drifted configs back into ~/.dotfiles is a manual decision.
+for managed_dir in "$HOME/.dotfiles/configs/.config"/*/; do
+    name=$(basename "$managed_dir")
+    if [ ! -L "$HOME/.config/$name" ]; then
+        echo "Warning: ~/.config/$name is no longer a symlink into ~/.dotfiles."
+        echo "Diff it against $managed_dir, merge what you want to keep, then re-link with: bash ~/.dotfiles/scripts/replace.sh"
+    fi
+done
 
 CONF="$HOME/.config/hypr/hypridle.conf"
 CUSTOM="$HOME/.config/hypr/hypridle-custom.conf"
