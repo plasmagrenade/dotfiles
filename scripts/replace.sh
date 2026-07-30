@@ -68,6 +68,17 @@ if [[ -d "$DOTFILES_DIR/.vim" ]]; then
   link_dir "$DOTFILES_DIR/.vim" "$TARGET_DIR/.vim"
 fi
 
+# Symlink each file in .local/bin/ individually (the rest of ~/.local/bin is unmanaged)
+localbin_src="$DOTFILES_DIR/.local/bin"
+localbin_dest="$TARGET_DIR/.local/bin"
+if [[ -d "$localbin_src" ]]; then
+  $DRY_RUN || mkdir -p "$localbin_dest"
+  for src_file in "$localbin_src"/*; do
+    [[ -f "$src_file" ]] || continue
+    link_file "$src_file" "$localbin_dest/$(basename "$src_file")"
+  done
+fi
+
 # Symlink all other top-level files individually (skip .config and .vim)
 find "$DOTFILES_DIR" -mindepth 1 -maxdepth 1 -type f | while read -r src_file; do
   rel_path="${src_file#$DOTFILES_DIR/}"

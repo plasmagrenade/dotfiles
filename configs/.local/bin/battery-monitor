@@ -1,0 +1,34 @@
+#!/bin/bash
+# ABOUTME: Run by systemd timer; alerts when battery is low while discharging.
+# ABOUTME: Dismisses the alert once the battery is charging again.
+
+BATTERY_THRESHOLD=10
+NOTIFICATION_FLAG="/run/user/$UID/omarchy_battery_notified"
+NOTIFICATION_ID_FILE="/run/user/$UID/omarchy_battery_notification_id"
+BATTERY_LEVEL=$(omarchy-battery-remaining)
+BATTERY_STATE=$(upower -i $(upower -e | grep 'BAT') | grep -E "state" | awk '{print $2}')
+
+send_notification() {
+  notify-send -u critical "󱐋 Time to recharge!" "Battery is down to ${1}%" \
+    -i battery-caution --print-id > "$NOTIFICATION_ID_FILE"
+  omarchy-hook battery-low "$1"
+}
+
+dismiss_notification() {
+  if [[ -f $NOTIFICATION_ID_FILE ]]; then
+    notify-send --close "$(cat "$NOTIFICATION_ID_FILE")"
+    rm -f "$NOTIFICATION_ID_FILE"
+  fi
+}
+
+if [[ -n $BATTERY_LEVEL && $BATTERY_LEVEL =~ ^[0-9]+$ ]]; then
+  if [[ $BATTERY_STATE == "discharging" ]] && (( BATTERY_LEVEL <= BATTERY_THRESHOLD )); then
+    if [[ ! -f $NOTIFICATION_FLAG ]]; then
+      send_notification $BATTERY_LEVEL
+      touch $NOTIFICATION_FLAG
+    fi
+  else
+    dismiss_notification
+    rm -f $NOTIFICATION_FLAG
+  fi
+fi
