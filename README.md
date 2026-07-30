@@ -61,7 +61,7 @@ For an [omarchy](https://omarchy.org/) machine, `fresh.sh` doesn't apply. Instea
 1. Install omarchy, then clone this repo:
 
     ```zsh
-    git clone --recursive git@github.com:cbrenton/dotfiles.git ~/.dotfiles
+    git clone --recursive git@github.com:plasmagrenade/dotfiles.git ~/.dotfiles
     ```
 
 2. Symlink all configs (Hyprland, waybar, walker, terminals, omarchy hooks/branding, systemd user units, `~/.local/bin` scripts):
@@ -78,9 +78,7 @@ For an [omarchy](https://omarchy.org/) machine, `fresh.sh` doesn't apply. Instea
     yay -S --needed - < ~/.dotfiles/aur.packages
     ```
 
-4. Build [hyprland-mouse-sensitivity](https://github.com/cbrenton/hyprland-mouse-sensitivity) and install it to `~/.local/bin`.
-
-5. Restore the custom Plymouth boot screen: `omarchy plymouth set '#000000' '#ffffff' ~/.config/omarchy/branding/logo.png`
+4. Restore the custom Plymouth boot screen: `omarchy plymouth set '#000000' '#ffffff' ~/.config/omarchy/branding/logo.png`
 
 Note: `monitors.conf` and the systemd enablement symlinks assume this specific machine — adjust for new hardware.
 
