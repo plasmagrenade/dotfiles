@@ -54,6 +54,36 @@ Your Mac is now ready to use!
 
 > 💡 You can use a different location than `~/.dotfiles` if you want. Make sure you also update the references in the [`.zshrc`](./.zshrc#L2) and [`fresh.sh`](./fresh.sh#L20) files.
 
+## A Fresh Linux (Omarchy) Setup
+
+For an [omarchy](https://omarchy.org/) machine, `fresh.sh` doesn't apply. Instead:
+
+1. Install omarchy, then clone this repo:
+
+    ```zsh
+    git clone --recursive git@github.com:cbrenton/dotfiles.git ~/.dotfiles
+    ```
+
+2. Symlink all configs (Hyprland, waybar, walker, terminals, omarchy hooks/branding, systemd user units, `~/.local/bin` scripts):
+
+    ```zsh
+    bash ~/.dotfiles/scripts/replace.sh
+    systemctl --user daemon-reload
+    ```
+
+3. Restore packages:
+
+    ```zsh
+    sudo pacman -S --needed - < ~/.dotfiles/pacman.packages
+    yay -S --needed - < ~/.dotfiles/aur.packages
+    ```
+
+4. Build [hyprland-mouse-sensitivity](https://github.com/cbrenton/hyprland-mouse-sensitivity) and install it to `~/.local/bin`.
+
+5. Restore the custom Plymouth boot screen: `omarchy plymouth set '#000000' '#ffffff' ~/.config/omarchy/branding/logo.png`
+
+Note: `monitors.conf` and the systemd enablement symlinks assume this specific machine — adjust for new hardware.
+
 ### Cleaning your old Mac (optionally)
 
 After you've set up your new Mac you may want to wipe and clean install your old Mac. Follow [this article](https://support.apple.com/guide/mac-help/erase-and-reinstall-macos-mh27903/mac) to do that. Remember to [backup your data](#backup-your-data) first!
