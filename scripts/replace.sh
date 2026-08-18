@@ -4,6 +4,12 @@ TARGET_DIR="$HOME"
 DRY_RUN=false
 [[ "$1" == "--dry-run" ]] && DRY_RUN=true
 
+OS="$(uname)"  # Darwin on macOS, Linux on Linux
+
+MAC_ONLY_CONFIGS=(aerospace sketchybar)
+LINUX_ONLY_CONFIGS=(alacritty btop fastfetch ghostty hypr mako omarchy systemd walker waybar)
+LINUX_ONLY_BINS=(battery-monitor lockscreen.py)
+
 shopt -s dotglob nullglob
 
 log() {
@@ -59,6 +65,8 @@ if [[ -d "$config_src" ]]; then
   $DRY_RUN || mkdir -p "$config_dest"
   for src_dir in "$config_src"/*/; do
     dir_name=$(basename "$src_dir")
+    [[ "$OS" == "Darwin" ]] && [[ " ${LINUX_ONLY_CONFIGS[*]} " == *" $dir_name "* ]] && continue
+    [[ "$OS" == "Linux"  ]] && [[ " ${MAC_ONLY_CONFIGS[*]} "   == *" $dir_name "* ]] && continue
     link_dir "$src_dir" "$config_dest/$dir_name"
   done
 fi
@@ -75,7 +83,9 @@ if [[ -d "$localbin_src" ]]; then
   $DRY_RUN || mkdir -p "$localbin_dest"
   for src_file in "$localbin_src"/*; do
     [[ -f "$src_file" ]] || continue
-    link_file "$src_file" "$localbin_dest/$(basename "$src_file")"
+    bin_name=$(basename "$src_file")
+    [[ "$OS" == "Darwin" ]] && [[ " ${LINUX_ONLY_BINS[*]} " == *" $bin_name "* ]] && continue
+    link_file "$src_file" "$localbin_dest/$bin_name"
   done
 fi
 
